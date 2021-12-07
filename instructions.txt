@@ -1,0 +1,12 @@
+Composer commands:
+composer init
+composer update
+
+Run PHP server:
+php -S localhost:8080
+
+Set Database configs in index.php file
+
+Run Migrations:
+php migrations.php
+

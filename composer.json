@@ -1,0 +1,15 @@
+{
+    "name": "muneeb/master-foundary",
+    "authors": [
+        {
+            "name": "muneeb",
+            "email": "meetwithmuneeb@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "app\\": "./"
+        }
+    },
+    "require": {}
+}
