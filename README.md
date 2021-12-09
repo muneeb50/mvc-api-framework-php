@@ -1,6 +1,6 @@
 # mvc-api-framework-php
 
-***Custom MVC framework developed using core PHP 7.4***
+***Custom MVC framework developed using core PHP 7.4 to handle API requests with routing support to controllers***
 
 #### Features:
 
