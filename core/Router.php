@@ -69,7 +69,7 @@ class Router
     }
 
     public function renderView($view, $params = []){
-        error_log('Router/renderView'." View: $view, Params: $params");
+        error_log('Router/renderView'." View: $view");
 
         //layoutContent is view templates like header/footer
         $layoutContent = $this->layoutContent();
@@ -88,7 +88,7 @@ class Router
     }
 
     protected function renderOnlyView($view, $params = []){
-        error_log('Router/renderOnlyView'." View: $view, Params: $params");
+        error_log('Router/renderOnlyView'." View: $view");
 
         foreach ($params as $key => $value){
             $$key = $value;

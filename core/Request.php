@@ -34,18 +34,28 @@ class Request
         return strtolower($_SERVER['REQUEST_METHOD']);
     }
 
+    public function isGet()
+    {
+        return $this->getMethod() === 'get';
+    }
+
+    public function isPost()
+    {
+        return $this->getMethod() === 'post';
+    }
+
     public function getBody(){
         error_log('Request/getBody');
 
         $body = [];
 
-        if ($this->getMethod() === 'get'){
+        if ($this->isGet()){
             foreach ($_GET as $key => $value){
                 $body[$key] = filter_input(INPUT_GET, $key, FILTER_SANITIZE_SPECIAL_CHARS);
             }
         }
 
-        if ($this->getMethod() === 'post'){
+        if ($this->isPost()){
             foreach ($_POST as $key => $value){
                 $body[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS);
             }

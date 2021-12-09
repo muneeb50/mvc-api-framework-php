@@ -33,5 +33,6 @@ $app->router->get('/terms-and-conditions', 'TermsAndConditions');
 
 $app->router->get('/test', [WelcomeController::class, 'test']);
 $app->router->post('/welcome', [WelcomeController::class, 'welcomePage']);
+$app->router->post('/register', [WelcomeController::class, 'registerUser']);
 
 $app->run();

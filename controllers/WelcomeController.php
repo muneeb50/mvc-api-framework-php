@@ -3,10 +3,9 @@
 
 namespace app\controllers;
 
-
-use app\core\Application;
 use app\core\BaseController;
 use app\core\Request;
+use app\models\UsersModel;
 
 class WelcomeController extends BaseController
 {
@@ -20,5 +19,14 @@ class WelcomeController extends BaseController
     public function welcomePage(Request $request){
         $body = $request->getBody();
         return $this->render('Welcome', $body);
+    }
+
+    public function registerUser(Request $request)
+    {
+        $userModel = new UsersModel();
+        if ($request->isPost()) {
+            $userModel->loadData($request->getBody());
+            $userModel->save();
+        }
     }
 }
