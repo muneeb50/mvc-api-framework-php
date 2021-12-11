@@ -6,7 +6,22 @@ namespace app\core;
 
 abstract class DbModel
 {
+    public string $id = '';
+    public $createdBy;
+    public $createdAt;
+    public $modifiedBy;
+    public $modifiedAt;
+
+    public function __construct(){
+        $this->createdBy = 'MMM';
+        $this->createdAt = date('Y-m-d H:i:s');
+        $this->modifiedBy = 'MMM';
+        $this->modifiedAt = date('Y-m-d H:i:s');
+    }
+
     abstract public static function tableName(): string;
+
+    abstract public static function className(): string;
 
     public function primaryKey(): string
     {
@@ -15,6 +30,10 @@ abstract class DbModel
     public function attributes()
     {
         return [];
+    }
+
+    private function getAllAttributes(){
+        return array_merge(['id', 'createdBy', 'createdAt', 'modifiedBy', 'modifiedAt'], $this->attributes());
     }
 
     public function loadData($data)
@@ -26,13 +45,15 @@ abstract class DbModel
         }
     }
 
-    public function validate(){}
+    public function validateInputCreate(){
+        $this->id = uniqid();
+    }
 
     public function save()
     {
-        $this->validate();
+        $this->validateInputCreate();
         $tableName = $this->tableName();
-        $attributes = $this->attributes();
+        $attributes = $this->getAllAttributes();
         $params = array_map(fn($attr) => ":$attr", $attributes);
         $statement = self::prepare("INSERT INTO $tableName (" . implode(",", $attributes) . ") 
                 VALUES (" . implode(",", $params) . ")");
@@ -59,5 +80,37 @@ abstract class DbModel
         }
         $statement->execute();
         return $statement->fetchObject(static::class);
+    }
+
+//        public function findOne($where)
+//        {
+//            $tableName = $this->tableName();
+//            $attributes = array_keys($where);
+//            $sql = implode("AND", array_map(fn($attr) => "$attr = :$attr", $attributes));
+//            $statement = self::prepare("SELECT * FROM $tableName WHERE $sql");
+//            foreach ($where as $key => $item) {
+//                $statement->bindValue(":$key", $item);
+//            }
+//            $statement->execute();
+//            return $statement->fetchObject($this->className());
+//        }
+
+    public function findAll($where = [])
+    {
+        $tableName = $this->tableName();
+        $statement = '';
+        if (count($where)>0){
+            $attributes = array_keys($where);
+            $sql = implode("AND", array_map(fn($attr) => "$attr = :$attr", $attributes));
+            $statement = self::prepare("SELECT * FROM $tableName WHERE $sql");
+            foreach ($where as $key => $item) {
+                $statement->bindValue(":$key", $item);
+            }
+        }
+        else{
+            $statement = self::prepare("SELECT * FROM $tableName");
+        }
+        $statement->execute();
+        return $statement->fetchAll(\PDO::FETCH_CLASS, $this->className());
     }
 }

@@ -5,6 +5,7 @@ namespace app\controllers;
 
 use app\core\BaseController;
 use app\core\Request;
+use app\core\Response;
 use app\models\UsersModel;
 
 class WelcomeController extends BaseController
@@ -27,6 +28,14 @@ class WelcomeController extends BaseController
         if ($request->isPost()) {
             $userModel->loadData($request->getBody());
             $userModel->save();
+        }
+    }
+
+    public function getUsers(Request $request)
+    {
+        $userModel = new UsersModel();
+        if ($request->isGet()) {
+            return json_encode($userModel->findAll($request->getBody()));
         }
     }
 }

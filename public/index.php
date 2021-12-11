@@ -1,5 +1,7 @@
 <?php
 require_once __DIR__.'/../vendor/autoload.php';
+
+use app\controllers\AuthController;
 use app\controllers\WelcomeController;
 use app\core\Application;
 
@@ -32,7 +34,9 @@ $app->router->get('/home', 'Home');
 $app->router->get('/terms-and-conditions', 'TermsAndConditions');
 
 $app->router->get('/test', [WelcomeController::class, 'test']);
-$app->router->post('/welcome', [WelcomeController::class, 'welcomePage']);
+$app->router->get('/users', [WelcomeController::class, 'getUsers']);
 $app->router->post('/register', [WelcomeController::class, 'registerUser']);
+$app->router->post('/login', [AuthController::class, 'login']);
+$app->router->get('/logout', [AuthController::class, 'logout']);
 
 $app->run();

@@ -16,4 +16,8 @@ class Response
         http_response_code($statusCode);
     }
 
+    public function redirect($url)
+    {
+        header("Location: $url");
+    }
 }

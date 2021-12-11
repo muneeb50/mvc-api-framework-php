@@ -8,12 +8,14 @@ class m0001_users {
     {
         $db = Application::$app->db;
         $SQL = "CREATE TABLE users (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                email VARCHAR(255) NOT NULL,
-                firstname VARCHAR(255) NOT NULL,
-                lastname VARCHAR(255) NOT NULL,
-                status TINYINT,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                id VARCHAR(512) PRIMARY KEY,
+                createdBy VARCHAR(255),
+                createdAt TIMESTAMP,
+                modifiedBy VARCHAR(255),
+                modifiedAt TIMESTAMP,
+                fullName VARCHAR(255) NOT NULL UNIQUE,
+                email VARCHAR(255) NOT NULL UNIQUE,
+                username VARCHAR(255) NOT NULL UNIQUE,
                 password VARCHAR(512)
             )  ENGINE=INNODB;";
         $db->pdo->exec($SQL);

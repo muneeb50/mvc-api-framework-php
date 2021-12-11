@@ -2,17 +2,21 @@
 
 namespace app\models;
 
+use app\core\Application;
 use app\core\DbModel;
 
 class UsersModel extends DbModel
 {
-    public int $id = 0;
-    public string $firstname = '';
-    public string $lastname = '';
+    public string $id = '';
+    public string $fullName = '';
     public string $email = '';
+    public string $username = '';
     public string $password = '';
-    public int $status = 1;
-    public string $passwordConfirm = '';
+
+    public function __construct(){
+        parent::__construct();
+//        $this->id = uniqid();
+    }
 
     public static function tableName(): string
     {
@@ -21,13 +25,18 @@ class UsersModel extends DbModel
 
     public function attributes(): array
     {
-        return ['firstname', 'lastname', 'email', 'password'];
+        return ['fullName', 'username', 'email', 'password'];
     }
 
     public function save()
     {
-//        $this->password = password_hash($this->password, PASSWORD_DEFAULT);
 
+//        $this->password = password_hash($this->password, PASSWORD_DEFAULT);
         return parent::save();
+    }
+
+    public static function className(): string
+    {
+        return UsersModel::class;
     }
 }
